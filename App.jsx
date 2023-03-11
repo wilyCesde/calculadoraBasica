@@ -16,40 +16,33 @@ export default function App() {
   const [esValido, setEsvalido] = useState(false);
   const [mensaje, setMensaje] = useState("");
 
-  let limpiar = ()=>{
-    setValor1("")
-    setValor2("")
-    setResultado(0)
-    setMensaje("")
-  }
-
+  // Definir los métodos del componente
   let calcular = (operador) => {
     if (valor1 != "" && valor2 != "") {
       setEsvalido(true);
-      setMensaje("Calculo realizado correctamente...");
-
-      let resulta = 0.0;
-      if ((operador = "+")) {
-        resulta = parseFloat(valor1) + parseFloat(valor2);
-      } else if ((operador = "-")) {
-        resulta = parseFloat(valor1) - parseFloat(valor2);
-      } else if ((operador = "*")) {
-        resulta = parseFloat(valor1) * parseFloat(valor2);
-      } else if ((operador = "*")) {
-        if (valor1 != "0" || valor2 != "0") {
+      setMensaje("Calculo realizado con Éxito");
+      let resulta = 0;
+ switch (operador) {
+        case "+":
+          resulta = parseFloat(valor1) + parseFloat(valor2);
+          break;
+        case "-":
+          resulta = parseFloat(valor1) - parseFloat(valor2);
+          break;
+        case "/":
           resulta = parseFloat(valor1) / parseFloat(valor2);
-        } else {
-          setMensaje("Los valores deben ser diferentes a cero (0)");
-        }
-      } else {
-        setMensaje("Seleccione una operacion.");
+          break;
+        case "*":
+          resulta = parseFloat(valor1) * parseFloat(valor2);
+          break;
       }
       setResultado(resulta);
     } else {
       setEsvalido(false);
-      setMensaje("Debe ingresar los dos valores");
+      setMensaje("Calculo no realizado");
     }
   };
+
   return (
     <View style={[styles.container, { flex: 1 }]}>
       <View
@@ -80,7 +73,7 @@ export default function App() {
           },
         ]}
       >
-        <Text>Calculadora Basica</Text>
+        <Text>Calculadora Básica</Text>
         <TextInput
           placeholder="Ingese valor 1"
           style={styles.inputs}
@@ -97,7 +90,9 @@ export default function App() {
         <Text
           style={[styles.inputs, { color: "blue", fontWeight: "bold" }]}
           onChangeText={(resultado) => setResultado(resultado)}
-        >{resultado}</Text>
+        >
+          {resultado.toFixed(2)}
+        </Text>
         <View style={{ flexDirection: "row", marginTop: 20 }}>
           <TouchableOpacity
             style={[
@@ -152,7 +147,12 @@ export default function App() {
               },
               styles.buttons,
             ]}
-            onPress={()=> limpiar()}
+            onPress={() => {
+              setValor1("");
+              setValor2("");
+              setResultado(0);
+              setMensaje("");
+            }}
           >
             <Text style={styles.textsTouchables}>C</Text>
           </TouchableOpacity>
@@ -173,7 +173,7 @@ export default function App() {
           },
         ]}
       >
-        <Text style={{fontSize:40}}>Derechos reservados</Text>
+        <Text>Derechos reservados</Text>
       </View>
     </View>
   );
